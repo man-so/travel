@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { UnsplashSearch } from '@/components/unsplash/UnsplashSearch';
@@ -25,12 +25,6 @@ export function JourneyForm({ journey }: { journey?: Journey }) {
   });
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
-
-  useEffect(() => {
-    if (!form.title && form.destination) {
-      setForm((current) => ({ ...current, title: current.destination }));
-    }
-  }, [form.destination, form.title]);
 
   function setField(field: keyof JourneyDraft, value: string | CoverPhoto | undefined) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -103,21 +97,33 @@ export function JourneyForm({ journey }: { journey?: Journey }) {
 
         {step === 1 ? (
           <div className="grid gap-5">
-            {[
-              ['title', 'Title', 'Spring in Kyoto'],
-              ['destination', 'Destination', 'Kyoto'],
-              ['country', 'Country', 'Japan'],
-            ].map(([field, label, placeholder]) => (
-              <label className="grid gap-2" key={field}>
-                <span className="text-sm font-bold">{label}</span>
-                <input
-                  className="min-h-12 rounded-lg border border-border bg-background px-4 outline-none focus:ring-2 focus:ring-accent"
-                  onChange={(event) => setField(field as keyof JourneyDraft, event.target.value)}
-                  placeholder={placeholder}
-                  value={String(form[field as keyof JourneyDraft] ?? '')}
-                />
-              </label>
-            ))}
+            <label className="grid gap-2">
+              <span className="text-sm font-bold">Title</span>
+              <input
+                className="min-h-12 rounded-lg border border-border bg-background px-4 outline-none focus:ring-2 focus:ring-accent"
+                onChange={(event) => setField('title', event.target.value)}
+                placeholder="Spring in Kyoto"
+                value={form.title}
+              />
+            </label>
+            <label className="grid gap-2">
+              <span className="text-sm font-bold">Destination</span>
+              <input
+                className="min-h-12 rounded-lg border border-border bg-background px-4 outline-none focus:ring-2 focus:ring-accent"
+                onChange={(event) => setField('destination', event.target.value)}
+                placeholder="Kyoto"
+                value={form.destination}
+              />
+            </label>
+            <label className="grid gap-2">
+              <span className="text-sm font-bold">Country</span>
+              <input
+                className="min-h-12 rounded-lg border border-border bg-background px-4 outline-none focus:ring-2 focus:ring-accent"
+                onChange={(event) => setField('country', event.target.value)}
+                placeholder="Japan"
+                value={form.country}
+              />
+            </label>
             <div className="grid gap-5 sm:grid-cols-2">
               <label className="grid gap-2">
                 <span className="text-sm font-bold">Start Date</span>

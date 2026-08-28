@@ -5,6 +5,10 @@ import { Camera, Check, Search } from 'lucide-react';
 import type { CoverPhoto } from '@/types/journey';
 import type { UnsplashPhoto } from '@/types/unsplash';
 
+type SearchResponse =
+  | { results: UnsplashPhoto[] }
+  | { error: { code: string; message: string } };
+
 const fallbackPhotos: UnsplashPhoto[] = [
   {
     id: 'fallback-kyoto',
@@ -82,9 +86,14 @@ export function UnsplashSearch({
     setError('');
     try {
       const response = await fetch(`/api/unsplash/search?q=${encodeURIComponent(searchQuery)}`);
-      const data = await response.json();
+      const data = (await response.json()) as SearchResponse;
       if (!response.ok) {
-        throw new Error(data.error?.message ?? 'We could not load travel photos.');
+        throw new Error(
+          'error' in data ? data.error.message : 'We could not load travel photos.',
+        );
+      }
+      if (!('results' in data)) {
+        throw new Error('We could not load travel photos.');
       }
       setPhotos(data.results);
     } catch (searchError) {

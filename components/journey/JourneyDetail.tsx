@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
   CalendarDays,
   ChevronDown,
@@ -27,12 +26,12 @@ type EntryFormState = {
 };
 
 export function JourneyDetail({ journeyId }: { journeyId: string }) {
-  const router = useRouter();
   const [journey, setJourney] = useState<Journey | null>(null);
   const [form, setForm] = useState<EntryFormState | null>(null);
 
   useEffect(() => {
-    setJourney(getJourney(journeyId));
+    const handle = window.setTimeout(() => setJourney(getJourney(journeyId)), 0);
+    return () => window.clearTimeout(handle);
   }, [journeyId]);
 
   function refresh() {

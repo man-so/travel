@@ -12,7 +12,8 @@ export function EditJourneyScreen({ journeyId }: { journeyId: string }) {
   const [journey, setJourney] = useState<Journey | null | undefined>(undefined);
 
   useEffect(() => {
-    setJourney(getJourney(journeyId));
+    const handle = window.setTimeout(() => setJourney(getJourney(journeyId)), 0);
+    return () => window.clearTimeout(handle);
   }, [journeyId]);
 
   if (journey === undefined) {
