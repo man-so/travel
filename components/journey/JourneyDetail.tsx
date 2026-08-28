@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import {
   CalendarDays,
   ChevronDown,
@@ -69,9 +68,9 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
         <div className="mx-auto max-w-3xl px-5 py-20 text-center">
           <h1 className="font-heading text-6xl">Journey not found.</h1>
           <p className="mt-4 text-muted-foreground">The story may have been deleted.</p>
-          <Link className="mt-8 inline-flex rounded-full bg-accent px-6 py-3 font-bold text-white" href="/dashboard">
+          <a className="mt-8 inline-flex rounded-full bg-accent px-6 py-3 font-bold text-white" href="/dashboard">
             Back to dashboard
-          </Link>
+          </a>
         </div>
       </main>
     );
@@ -87,11 +86,11 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
         ) : null}
         <div className="absolute inset-0 bg-black/45" />
         <div className="relative flex items-center justify-between px-5 py-5 md:px-10">
-          <Link className="text-xl" href="/dashboard">←</Link>
+          <a className="text-xl" href="/dashboard">←</a>
           <p className="font-bold">{journey.title}</p>
-          <Link href={`/journeys/${journey.id}/edit`} aria-label="Edit Journey">
+          <a href={`/journeys/${journey.id}/edit`} aria-label="Edit Journey">
             <MoreHorizontal />
-          </Link>
+          </a>
         </div>
         <div className="relative mx-4 mt-16 max-w-xl rounded-lg bg-[#2f333d]/95 p-6 shadow-2xl md:mx-10">
           <p className="font-heading text-5xl leading-none md:text-7xl">{journey.destination}</p>
@@ -102,9 +101,9 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
               {formatDateRange(journey.startDate, journey.endDate)}
             </span>
             <span>{dayCount(journey.startDate, journey.endDate)} Days</span>
-            <Link className="rounded-full bg-white px-5 py-2 font-bold text-foreground" href={`/journeys/${journey.id}/edit`}>
+            <a className="rounded-full bg-white px-5 py-2 font-bold text-foreground" href={`/journeys/${journey.id}/edit`}>
               Edit
-            </Link>
+            </a>
           </div>
           {journey.cover?.photographerName ? (
             <p className="mt-5 text-xs text-white/65">

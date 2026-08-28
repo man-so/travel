@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 export function Header({ inverse = false }: { inverse?: boolean }) {
   return (
     <header
@@ -7,20 +5,20 @@ export function Header({ inverse = false }: { inverse?: boolean }) {
         inverse ? 'text-white' : 'text-foreground'
       }`}
     >
-      <Link className="text-lg font-semibold tracking-[0.18em]" href="/">
+      <a className="text-lg font-semibold tracking-[0.18em]" href="/">
         WAYLOG
-      </Link>
+      </a>
       <nav className="hidden items-center gap-8 text-sm uppercase tracking-[0.16em] md:flex">
-        <Link href="/dashboard">Journeys</Link>
-        <Link href="/#about">About</Link>
-        <Link href="/journeys/new">Start</Link>
+        <a href="/dashboard">Journeys</a>
+        <a href="/#about">About</a>
+        <a href="/journeys/new">Start</a>
       </nav>
-      <Link
+      <a
         className="rounded-full border border-current/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] md:hidden"
         href="/journeys/new"
       >
         Start
-      </Link>
+      </a>
     </header>
   );
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { UnsplashSearch } from '@/components/unsplash/UnsplashSearch';
 import { createJourney, updateJourney } from '@/lib/journey-store';
@@ -12,7 +11,6 @@ import type { CoverPhoto, Journey, JourneyDraft } from '@/types/journey';
 const companions = ['solo', 'couple', 'friends', 'family'] as const;
 
 export function JourneyForm({ journey }: { journey?: Journey }) {
-  const router = useRouter();
   const [step, setStep] = useState(journey ? 2 : 1);
   const [form, setForm] = useState<JourneyDraft>({
     title: journey?.title ?? '',
@@ -55,7 +53,7 @@ export function JourneyForm({ journey }: { journey?: Journey }) {
     const saved = journey ? updateJourney(journey.id, form) : createJourney(form);
     setTimeout(() => {
       if (saved) {
-        router.push(`/journeys/${saved.id}`);
+        window.location.href = `/journeys/${saved.id}`;
       }
     }, 250);
   }
@@ -181,7 +179,7 @@ export function JourneyForm({ journey }: { journey?: Journey }) {
         <div className="mt-8 flex flex-wrap justify-between gap-3">
           <button
             className="inline-flex min-h-12 items-center gap-2 rounded-full border border-border px-5 font-bold"
-            onClick={() => (step === 1 ? router.back() : setStep(1))}
+            onClick={() => (step === 1 ? window.history.back() : setStep(1))}
             type="button"
           >
             <ArrowLeft size={18} />

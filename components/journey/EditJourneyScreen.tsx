@@ -1,14 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Header } from '@/components/layout/Header';
 import { JourneyForm } from '@/components/journey/JourneyForm';
 import { deleteJourney, getJourney } from '@/lib/journey-store';
 import type { Journey } from '@/types/journey';
 
 export function EditJourneyScreen({ journeyId }: { journeyId: string }) {
-  const router = useRouter();
   const [journey, setJourney] = useState<Journey | null | undefined>(undefined);
 
   useEffect(() => {
@@ -27,7 +25,7 @@ export function EditJourneyScreen({ journeyId }: { journeyId: string }) {
   function remove() {
     if (window.confirm('Are you sure?')) {
       deleteJourney(journeyId);
-      router.push('/dashboard');
+      window.location.href = '/dashboard';
     }
   }
 

@@ -1,11 +1,10 @@
-import Link from 'next/link';
 import { MapPin, Plus } from 'lucide-react';
 import { dayCount } from '@/lib/dates';
 import type { Journey } from '@/types/journey';
 
 export function NewJourneyCard() {
   return (
-    <Link
+    <a
       className="flex min-h-[270px] flex-col justify-end rounded-lg bg-[#10a9aa] p-7 text-white transition hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-accent"
       href="/journeys/new"
     >
@@ -13,14 +12,14 @@ export function NewJourneyCard() {
         <Plus size={32} />
       </span>
       <span className="text-3xl font-bold leading-tight">New journey album</span>
-    </Link>
+    </a>
   );
 }
 
 export function JourneyCard({ journey }: { journey: Journey }) {
   const totalEntries = journey.days.reduce((sum, day) => sum + day.entries.length, 0);
   return (
-    <Link
+    <a
       className="group relative min-h-[270px] overflow-hidden rounded-lg bg-card text-white transition hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-accent"
       href={`/journeys/${journey.id}`}
     >
@@ -44,6 +43,6 @@ export function JourneyCard({ journey }: { journey: Journey }) {
           {dayCount(journey.startDate, journey.endDate)} Days · {totalEntries} Moments
         </p>
       </div>
-    </Link>
+    </a>
   );
 }

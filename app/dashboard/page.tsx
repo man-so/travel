@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
 import { Image, Search, Store, MessageCircle, UserCircle } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { JourneyCard, NewJourneyCard } from '@/components/journey/JourneyCard';
@@ -43,9 +42,9 @@ export default function DashboardPage() {
               My Journis
             </h1>
           </div>
-          <Link className="hidden rounded-full bg-accent px-5 py-3 text-sm font-bold text-white md:inline-flex" href="/journeys/new">
+          <a className="hidden rounded-full bg-accent px-5 py-3 text-sm font-bold text-white md:inline-flex" href="/journeys/new">
             New Journey
-          </Link>
+          </a>
         </div>
 
         <label className="mt-7 flex items-center gap-3 rounded-lg bg-black/5 px-4 py-3 text-muted-foreground">

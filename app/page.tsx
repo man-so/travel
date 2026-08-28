@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { Header } from '@/components/layout/Header';
 
 const heroImage =
@@ -30,12 +29,12 @@ export default function Home() {
             <br />
             그날의 기억은 남도록.
           </p>
-          <Link
+          <a
             className="mt-8 inline-flex items-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-white"
             href="/journeys/new"
           >
             Start your journey →
-          </Link>
+          </a>
         </div>
       </section>
 
@@ -133,12 +132,12 @@ export default function Home() {
         <h2 className="font-heading text-6xl leading-none md:text-8xl">
           Every journey becomes a story.
         </h2>
-        <Link
+        <a
           className="mt-8 inline-flex rounded-full bg-accent px-6 py-3 text-sm font-bold text-white"
           href="/journeys/new"
         >
           Create your first journey →
-        </Link>
+        </a>
       </section>
     </main>
   );
