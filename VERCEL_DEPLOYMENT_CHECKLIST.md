@@ -78,8 +78,11 @@ npm run build
 Recommended Vercel settings:
 
 - Install command: `npm install`
-- Build command: `npm run build`
-- Output/start settings: keep the framework defaults unless the deployed runtime requires custom Vinext handling.
+- Framework preset: `Other`
+- Build command: `npm run build:vercel`
+- Output/start settings: use the generated Build Output API directory at `.vercel/output`.
+
+Note: the normal local command remains `npm run build`. Vercel uses `npm run build:vercel` so the Vinext Cloudflare-style build is wrapped as a Vercel Node function.
 
 ## 6. Preview QA
 

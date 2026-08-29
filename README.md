@@ -175,11 +175,17 @@ npm run build
 
 ## Deployment
 
-The app can be prepared for Vercel with the same production build command:
+For ordinary local verification, run:
 
 ```bash
 npm run build
 ```
+
+For Vercel, this project uses a small Build Output API adapter because Vinext produces a Cloudflare Worker-style bundle by default. Configure Vercel with:
+
+- Framework Preset: `Other`
+- Install Command: `npm install`
+- Build Command: `npm run build:vercel`
 
 Before deploying, review `VERCEL_DEPLOYMENT_CHECKLIST.md`.
 
