@@ -38,3 +38,5 @@ next-env.d.ts
 /work/
 *.tar.gz
 WAYLOG 여행 다이어리 웹앱 기술명세서.md
+
+.vercel
