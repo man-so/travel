@@ -163,6 +163,35 @@
   animation: waylog-scroll-cue 1.8s ease-in-out infinite;
 }
 
+.waylog-feature-card,
+.waylog-product-preview,
+.waylog-passport-preview,
+.waylog-timeline-row {
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.waylog-feature-card:hover,
+.waylog-timeline-row:hover {
+  border-color: rgb(255 90 54 / 45%);
+  transform: translateY(-3px);
+}
+
+.waylog-product-preview:hover,
+.waylog-passport-preview:hover {
+  transform: translateY(-6px);
+}
+
+.waylog-product-preview:hover {
+  box-shadow: 0 24px 80px rgb(17 17 17 / 24%);
+}
+
+.waylog-passport-preview:hover {
+  box-shadow: 0 22px 70px rgb(17 17 17 / 18%);
+}
+
 @keyframes waylog-hero-drift {
   from {
     transform: scale(1.06);
@@ -195,10 +224,37 @@
   }
 }
 
+@keyframes waylog-section-rise {
+  from {
+    opacity: 0.25;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .waylog-section-reveal {
+    animation: waylog-section-rise 1ms ease-out both;
+    animation-range: entry 0% cover 28%;
+    animation-timeline: view();
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .waylog-hero-image,
   .waylog-reveal,
-  .waylog-scroll-cue {
+  .waylog-scroll-cue,
+  .waylog-section-reveal {
     animation: none;
+  }
+
+  .waylog-feature-card,
+  .waylog-product-preview,
+  .waylog-passport-preview,
+  .waylog-timeline-row {
+    transition: none;
   }
 }

@@ -103,7 +103,10 @@ export default function Home() {
         />
       </section>
 
-      <section id="about" className="px-5 py-20 md:px-10 lg:py-28">
+      <section
+        id="about"
+        className="waylog-section-reveal px-5 py-20 md:px-10 lg:py-28"
+      >
         <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-[0.9fr_1.1fr] md:items-start">
           <div>
             <p className="mb-5 text-sm font-bold uppercase tracking-[0.28em] text-accent">
@@ -119,7 +122,10 @@ export default function Home() {
           </div>
           <div className="grid gap-7 sm:grid-cols-3">
             {memorySteps.map((step) => (
-              <article key={step.label} className="border-t border-border pt-6">
+              <article
+                key={step.label}
+                className="waylog-feature-card border-t border-border pt-6"
+              >
                 <p className="text-sm font-bold uppercase tracking-[0.28em] text-accent">
                   {step.label}
                 </p>
@@ -133,7 +139,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-5 pb-24 md:px-10">
+      <section className="waylog-section-reveal px-5 pb-24 md:px-10">
         <div className="mx-auto grid max-w-6xl gap-10 border-y border-border py-16 md:grid-cols-[0.8fr_1.2fr] md:items-center">
           <div>
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-accent">
@@ -149,7 +155,7 @@ export default function Home() {
             </p>
           </div>
 
-          <article className="rounded-[1.5rem] bg-foreground p-3 text-background shadow-2xl">
+          <article className="waylog-product-preview rounded-[1.5rem] bg-foreground p-3 text-background shadow-2xl">
             <div className="overflow-hidden rounded-[1.1rem] bg-background text-foreground">
               <img
                 src={previewImage}
@@ -167,7 +173,7 @@ export default function Home() {
                 {previewDays.map((item) => (
                   <div
                     key={item.day}
-                    className="grid gap-3 border-t border-border pt-4 sm:grid-cols-[6rem_1fr]"
+                    className="waylog-timeline-row grid gap-3 border-t border-border pt-4 sm:grid-cols-[6rem_1fr]"
                   >
                     <p className="text-xs font-black uppercase tracking-[0.22em] text-accent">
                       {item.day}
@@ -186,9 +192,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-5 pb-24 md:px-10">
+      <section className="waylog-section-reveal px-5 pb-24 md:px-10">
         <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1fr_0.9fr] md:items-center">
-          <article className="relative min-h-[360px] overflow-hidden rounded-lg border border-border p-6 text-white">
+          <article className="waylog-passport-preview relative min-h-[360px] overflow-hidden rounded-lg border border-border p-6 text-white">
             <img
               src={passportImage}
               alt="Coastal road and blue ocean"
@@ -242,9 +248,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-5 pb-24 md:px-10">
+      <section className="waylog-section-reveal px-5 pb-24 md:px-10">
         <div className="mx-auto grid max-w-6xl gap-10 border-t border-border pt-16 md:grid-cols-2">
-          <article>
+          <article className="waylog-feature-card">
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-accent">
               Local-first
             </p>
@@ -257,7 +263,7 @@ export default function Home() {
               complete.
             </p>
           </article>
-          <article>
+          <article className="waylog-feature-card">
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-accent">
               Coming next
             </p>
@@ -273,7 +279,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-5 pb-24 text-center md:px-10">
+      <section className="waylog-section-reveal px-5 pb-24 text-center md:px-10">
         <div className="mx-auto max-w-3xl">
           <p className="text-sm font-bold uppercase tracking-[0.28em] text-accent">
             Start with one trip
