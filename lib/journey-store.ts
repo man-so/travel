@@ -67,7 +67,10 @@ export function deleteJourney(id: string) {
   saveJourneys(listJourneys().filter((journey) => journey.id !== id));
 }
 
-export function addEntry(dayId: string, entry: Pick<Entry, 'place' | 'content' | 'photoUrl'>) {
+type EntryPatch = Pick<Entry, 'place' | 'content' | 'photoUrl'> &
+  Partial<Pick<Entry, 'formattedAddress' | 'latitude' | 'longitude'>>;
+
+export function addEntry(dayId: string, entry: EntryPatch) {
   const now = new Date().toISOString();
   let newEntry: Entry | null = null;
   const journeys = listJourneys().map((journey) => ({
@@ -82,6 +85,9 @@ export function addEntry(dayId: string, entry: Pick<Entry, 'place' | 'content' |
         place: entry.place,
         content: entry.content,
         photoUrl: entry.photoUrl,
+        formattedAddress: entry.formattedAddress,
+        latitude: entry.latitude,
+        longitude: entry.longitude,
         sortOrder: day.entries.length,
         createdAt: now,
         updatedAt: now,
@@ -93,7 +99,7 @@ export function addEntry(dayId: string, entry: Pick<Entry, 'place' | 'content' |
   return newEntry;
 }
 
-export function updateEntry(entryId: string, patch: Pick<Entry, 'place' | 'content' | 'photoUrl'>) {
+export function updateEntry(entryId: string, patch: EntryPatch) {
   const journeys = listJourneys().map((journey) => ({
     ...journey,
     days: journey.days.map((day) => ({

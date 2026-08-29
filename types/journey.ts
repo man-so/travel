@@ -16,6 +16,9 @@ export type Entry = {
   place: string;
   content: string;
   photoUrl?: string;
+  formattedAddress?: string;
+  latitude?: number;
+  longitude?: number;
   sortOrder: number;
   createdAt: string;
   updatedAt: string;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Image, Search, Store, MessageCircle, UserCircle } from 'lucide-react';
+import { BookOpen, Home, Image, Plus, Search } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { JourneyCard, NewJourneyCard } from '@/components/journey/JourneyCard';
 import { listJourneys } from '@/lib/journey-store';
@@ -39,7 +39,7 @@ export default function DashboardPage() {
           <div>
             <p className="text-muted-foreground">Good evening.</p>
             <h1 className="mt-2 text-5xl font-black tracking-tight md:text-7xl">
-              My Journis
+              My Journeys
             </h1>
           </div>
           <a className="hidden rounded-full bg-accent px-5 py-3 text-sm font-bold text-white md:inline-flex" href="/journeys/new">
@@ -79,11 +79,18 @@ export default function DashboardPage() {
       </section>
 
       <nav className="fixed bottom-0 left-0 right-0 mx-auto flex h-20 max-w-xl items-center justify-around border-t border-border bg-white/95 px-6 backdrop-blur md:hidden">
-        <Image aria-label="Albums" className="text-foreground" />
-        <Store aria-label="Explore" className="text-muted-foreground" />
-        <Search aria-label="Search" className="text-muted-foreground" />
-        <MessageCircle aria-label="Notes" className="text-muted-foreground" />
-        <UserCircle aria-label="Profile" className="text-muted-foreground" />
+        <a aria-label="Home" className="text-muted-foreground" href="/">
+          <Home />
+        </a>
+        <a aria-label="Journeys" className="text-foreground" href="/dashboard">
+          <Image />
+        </a>
+        <a aria-label="Passport" className="text-muted-foreground" href="/passport">
+          <BookOpen />
+        </a>
+        <a aria-label="New journey" className="text-muted-foreground" href="/journeys/new">
+          <Plus />
+        </a>
       </nav>
     </main>
   );

@@ -131,3 +131,74 @@
     scroll-behavior: smooth;
   }
 }
+
+.waylog-place-autocomplete {
+  display: block;
+  width: 100%;
+  min-height: 3rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.waylog-hero-image {
+  animation: waylog-hero-drift 14s ease-out both;
+  transform-origin: center;
+}
+
+.waylog-reveal {
+  animation: waylog-reveal-up 780ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
+}
+
+.waylog-reveal-delay-1 {
+  animation-delay: 120ms;
+}
+
+.waylog-reveal-delay-2 {
+  animation-delay: 240ms;
+}
+
+.waylog-scroll-cue {
+  animation: waylog-scroll-cue 1.8s ease-in-out infinite;
+}
+
+@keyframes waylog-hero-drift {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes waylog-reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes waylog-scroll-cue {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translate(-50%, 0);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, 10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waylog-hero-image,
+  .waylog-reveal,
+  .waylog-scroll-cue {
+    animation: none;
+  }
+}

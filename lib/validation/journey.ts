@@ -21,4 +21,6 @@ export const entrySchema = z.object({
   place: z.string().trim().min(1, 'Place is required.'),
   content: z.string().max(2000).default(''),
   photoUrl: z.string().trim().optional(),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
 });

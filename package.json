@@ -9,6 +9,7 @@
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
+    "test:passport": "node --experimental-strip-types tests/passport-aggregate.test.ts",
     "lint": "oxlint",
     "format": "oxfmt"
   },
