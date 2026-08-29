@@ -19,7 +19,26 @@ export type Entry = {
   formattedAddress?: string;
   latitude?: number;
   longitude?: number;
+  itineraryItemId?: string;
+  plannedTime?: string;
   sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ItineraryStatus = 'planned' | 'visited' | 'skipped';
+
+export type ItineraryItem = {
+  id: string;
+  dayId: string;
+  time?: string;
+  placeName: string;
+  formattedAddress?: string;
+  latitude?: number;
+  longitude?: number;
+  note?: string;
+  order: number;
+  status: ItineraryStatus;
   createdAt: string;
   updatedAt: string;
 };
@@ -32,6 +51,7 @@ export type Day = {
   title?: string;
   summary?: string;
   entries: Entry[];
+  itinerary?: ItineraryItem[];
 };
 
 export type Journey = {

@@ -22,9 +22,14 @@ import {
 } from '@/lib/journey-store';
 import { GoogleJourneyMap } from '@/components/maps/GoogleJourneyMap';
 import { PlacePicker, type SelectedPlace } from '@/components/maps/PlacePicker';
+import { TripPlanner } from '@/components/planner/TripPlanner';
 import { dayCount, formatDateRange, formatShortDate } from '@/lib/dates';
 import { prepareMomentPhoto } from '@/lib/image-upload';
-import type { Day, Entry, Journey } from '@/types/journey';
+import {
+  createMomentDraftFromItinerary,
+  orderedItinerary,
+} from '@/lib/planner';
+import type { Day, Entry, ItineraryItem, Journey } from '@/types/journey';
 
 type EntryFormState = {
   entry?: Entry;
@@ -35,6 +40,8 @@ type EntryFormState = {
   formattedAddress?: string;
   latitude?: number;
   longitude?: number;
+  itineraryItemId?: string;
+  plannedTime?: string;
 };
 
 export function JourneyDetail({ journeyId }: { journeyId: string }) {
@@ -42,6 +49,8 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
   const [form, setForm] = useState<EntryFormState | null>(null);
   const [mapQuery, setMapQuery] = useState<string | null>(null);
   const [photoError, setPhotoError] = useState('');
+  const [activeTab, setActiveTab] = useState('Overview');
+  const [hasOpenedPlanner, setHasOpenedPlanner] = useState(false);
 
   useEffect(() => {
     const handle = window.setTimeout(
@@ -50,6 +59,16 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
     );
     return () => window.clearTimeout(handle);
   }, [journeyId]);
+
+  useEffect(() => {
+    const handle = window.setTimeout(() => {
+      if (new URLSearchParams(window.location.search).get('tab') === 'itinerary') {
+        setActiveTab('Itinerary');
+        setHasOpenedPlanner(true);
+      }
+    }, 0);
+    return () => window.clearTimeout(handle);
+  }, []);
 
   function refresh() {
     setJourney(getJourney(journeyId));
@@ -66,6 +85,8 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
       formattedAddress: form.formattedAddress,
       latitude: form.latitude,
       longitude: form.longitude,
+      itineraryItemId: form.itineraryItemId,
+      plannedTime: form.plannedTime,
     };
     if (form.entry) {
       updateEntry(form.entry.id, payload);
@@ -100,6 +121,26 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
       deleteEntry(entryId);
       refresh();
     }
+  }
+
+  function openMomentFromItinerary(dayId: string, item: ItineraryItem) {
+    setForm({
+      dayId,
+      ...createMomentDraftFromItinerary(item),
+    });
+  }
+
+  function applyItineraryToMoment(item: ItineraryItem) {
+    if (!form) {
+      return;
+    }
+    const draft = createMomentDraftFromItinerary(item);
+    setForm({
+      ...form,
+      ...draft,
+      dayId: form.dayId,
+      photoUrl: form.photoUrl,
+    });
   }
 
   if (!journey) {
@@ -138,6 +179,15 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
     .filter(Boolean)
     .join(', ');
   const activeMapQuery = mapQuery ?? places[0]?.query ?? journeyMapQuery;
+  const formDay = form
+    ? journey.days.find((day) => day.id === form.dayId)
+    : undefined;
+  const formPlannerItems = formDay
+    ? orderedItinerary(formDay.itinerary ?? [])
+    : [];
+  const selectedPlannerItem = form?.itineraryItemId
+    ? formPlannerItems.find((item) => item.id === form.itineraryItemId)
+    : undefined;
 
   return (
     <main className="min-h-screen bg-background pb-28">
@@ -151,7 +201,7 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
         ) : null}
         <div className="absolute inset-0 bg-black/45" />
         <div className="relative flex items-center justify-between px-5 py-5 md:px-10">
-          <a className="text-xl" href="/dashboard">
+          <a className="text-xl" href="/dashboard" aria-label="Back">
             ←
           </a>
           <p className="font-bold">{journey.title}</p>
@@ -202,49 +252,97 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
         </div>
       </section>
 
-      <div className="sticky top-0 z-10 flex border-b border-border bg-background/95 px-5 backdrop-blur md:px-10">
-        {['Overview', 'Itinerary', 'Explore', '$'].map((tab, index) => (
-          <button
-            className={`px-4 py-4 text-sm font-black ${index === 0 ? 'border-b-2 border-accent text-accent' : 'text-muted-foreground'}`}
-            key={tab}
-            type="button"
-          >
-            {tab}
-          </button>
-        ))}
+      <div className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur">
+        <div
+          className="mx-auto flex max-w-[1680px] flex-wrap items-center justify-between gap-x-4 gap-y-2 px-5 md:px-10"
+        >
+          <div className="-ml-4 flex min-w-0 overflow-x-auto">
+            {['Overview', 'Itinerary', 'Explore', '$'].map((tab) => (
+              <button
+                className={`shrink-0 px-4 py-4 text-sm font-black ${activeTab === tab ? 'border-b-2 border-accent text-accent' : 'text-muted-foreground'}`}
+                key={tab}
+                onClick={() => {
+                  setActiveTab(tab);
+                  if (tab === 'Itinerary') {
+                    setHasOpenedPlanner(true);
+                  }
+                }}
+                type="button"
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          <nav className="flex shrink-0 items-center gap-2 pb-2 md:pb-0">
+            <a
+              className="rounded-full border border-border px-4 py-2 text-xs font-black uppercase tracking-[0.12em] transition hover:border-accent hover:text-accent"
+              href="/"
+            >
+              Home
+            </a>
+            <a
+              className="rounded-full border border-border px-4 py-2 text-xs font-black uppercase tracking-[0.12em] transition hover:border-accent hover:text-accent"
+              href="/dashboard"
+            >
+              Dashboard
+            </a>
+          </nav>
+        </div>
       </div>
 
-      <section className="mx-auto max-w-5xl px-5 py-12 md:px-10">
-        <textarea
-          aria-label="General trip notes"
-          className="mb-10 min-h-24 w-full resize-none bg-transparent text-xl italic leading-8 text-muted-foreground outline-none"
-          placeholder="Write or paste general notes here, e.g. how to get around, local tips, reminders"
-        />
-        <div className="space-y-16">
-          {journey.days.map((day) => (
-            <DaySection
-              day={day}
-              journeyLocation={journeyMapQuery}
-              key={day.id}
-              onAdd={() =>
-                setForm({ dayId: day.id, place: '', content: '', photoUrl: '' })
-              }
-              onDelete={removeMoment}
-              onEdit={(entry) =>
-                setForm({
-                  entry,
-                  dayId: day.id,
-                  place: entry.place,
-                  content: entry.content,
-                  photoUrl: entry.photoUrl ?? '',
-                  formattedAddress: entry.formattedAddress,
-                  latitude: entry.latitude,
-                  longitude: entry.longitude,
-                })
-              }
-              onOpenMap={(query) => setMapQuery(query)}
+      <section
+        className={`mx-auto px-5 py-12 md:px-10 ${
+          activeTab === 'Itinerary' ? 'max-w-[1680px]' : 'max-w-5xl'
+        }`}
+      >
+        {hasOpenedPlanner ? (
+          <div hidden={activeTab !== 'Itinerary'}>
+            <TripPlanner
+              journey={journey}
+              onCreateMoment={openMomentFromItinerary}
+              onRefresh={refresh}
             />
-          ))}
+          </div>
+        ) : null}
+        <div hidden={activeTab === 'Itinerary'}>
+          <textarea
+            aria-label="General trip notes"
+            className="mb-10 min-h-24 w-full resize-none bg-transparent text-xl italic leading-8 text-muted-foreground outline-none"
+            placeholder="Write or paste general notes here, e.g. how to get around, local tips, reminders"
+          />
+          <div className="space-y-16">
+            {journey.days.map((day) => (
+              <DaySection
+                day={day}
+                journeyLocation={journeyMapQuery}
+                key={day.id}
+                onAdd={() =>
+                  setForm({
+                    dayId: day.id,
+                    place: '',
+                    content: '',
+                    photoUrl: '',
+                  })
+                }
+                onDelete={removeMoment}
+                onEdit={(entry) =>
+                  setForm({
+                    entry,
+                    dayId: day.id,
+                    place: entry.place,
+                    content: entry.content,
+                    photoUrl: entry.photoUrl ?? '',
+                    formattedAddress: entry.formattedAddress,
+                    latitude: entry.latitude,
+                    longitude: entry.longitude,
+                    itineraryItemId: entry.itineraryItemId,
+                    plannedTime: entry.plannedTime,
+                  })
+                }
+                onOpenMap={(query) => setMapQuery(query)}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -286,7 +384,64 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
             <h2 className="text-3xl font-black">
               {form.entry ? 'Edit moment' : 'Add moment'}
             </h2>
+            {form.itineraryItemId ? (
+              <div className="mt-4 rounded-lg border border-accent/30 bg-accent/5 px-4 py-3 text-sm">
+                <p className="font-black uppercase tracking-[0.16em] text-accent">
+                  Planned place
+                </p>
+                <p className="mt-2 text-xl font-black text-foreground">
+                  {form.place}
+                </p>
+                <p className="mt-1 font-bold text-muted-foreground">
+                  {formDay
+                    ? `Day ${String(formDay.dayNumber).padStart(
+                        2,
+                        '0',
+                      )} · ${formatShortDate(formDay.date)}`
+                    : 'Planned day'}
+                  {form.plannedTime ? ` · ${form.plannedTime}` : ''}
+                </p>
+                {selectedPlannerItem?.formattedAddress ? (
+                  <p className="mt-2 break-words text-muted-foreground">
+                    {selectedPlannerItem.formattedAddress}
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
             <div className="mt-6 grid gap-4">
+              {!form.entry && formPlannerItems.length > 0 ? (
+                <div className="grid gap-2">
+                  <span className="text-sm font-bold">
+                    Bring from today&apos;s plan
+                  </span>
+                  <div className="grid max-h-40 gap-2 overflow-auto rounded-lg border border-border bg-background p-2">
+                    {formPlannerItems.map((item) => (
+                      <button
+                        className={`rounded-md border px-3 py-2 text-left transition ${
+                          form.itineraryItemId === item.id
+                            ? 'border-accent bg-accent text-white'
+                            : 'border-border bg-white hover:border-accent'
+                        }`}
+                        key={item.id}
+                        onClick={() => applyItineraryToMoment(item)}
+                        type="button"
+                      >
+                        <span className="block text-xs font-black uppercase tracking-[0.12em] opacity-70">
+                          {item.time || 'Any time'}
+                        </span>
+                        <span className="mt-1 block font-bold">
+                          {item.placeName}
+                        </span>
+                        {item.note ? (
+                          <span className="mt-1 block truncate text-sm opacity-75">
+                            {item.note}
+                          </span>
+                        ) : null}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
               <label className="grid gap-2">
                 <span className="text-sm font-bold">Place</span>
                 <input
@@ -520,6 +675,12 @@ function DaySection({
                 />
               ) : null}
               <div className="flex flex-col justify-center">
+                {entry.itineraryItemId ? (
+                  <p className="mb-3 w-fit rounded-full border border-accent/25 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-accent">
+                    Planned
+                    {entry.plannedTime ? ` · ${entry.plannedTime}` : ''}
+                  </p>
+                ) : null}
                 <p className="text-3xl font-black">{entry.place}</p>
                 {entry.content ? (
                   <p className="mt-4 whitespace-pre-wrap text-lg leading-8">

@@ -1,11 +1,11 @@
 import { Header } from '@/components/layout/Header';
-import { JourneyForm } from '@/components/journey/JourneyForm';
+import { JourneyStart } from '@/components/journey/JourneyStart';
 
 export default function NewJourneyPage() {
   return (
     <main className="min-h-screen bg-background">
       <Header />
-      <JourneyForm />
+      <JourneyStart />
     </main>
   );
 }
