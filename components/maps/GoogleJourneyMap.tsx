@@ -333,8 +333,24 @@ export function GoogleJourneyMap({
         });
 
         if (fitMode === 'world') {
-          map.setCenter({ lat: 20, lng: 0 });
-          map.setZoom(2);
+          if (routePath.length === 1 && routePath[0]) {
+            map.setCenter(routePath[0]);
+            map.setZoom(3);
+          } else if (routePath.length > 1) {
+            map.fitBounds(bounds);
+            window.setTimeout(() => {
+              if (cancelled) {
+                return;
+              }
+              const zoom = map.getZoom();
+              if (typeof zoom === 'number' && zoom > 3) {
+                map.setZoom(3);
+              }
+            }, 0);
+          } else {
+            map.setCenter({ lat: 20, lng: 0 });
+            map.setZoom(2);
+          }
         } else if (mapTargets.length > 1) {
           map.fitBounds(bounds);
         } else if (mapTargets.length === 1) {

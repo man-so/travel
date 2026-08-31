@@ -1506,7 +1506,7 @@ function PlannerDay({
           <div className="absolute bottom-0 left-[3.25rem] top-0 hidden w-px bg-border sm:block" />
           {items.map((item, index) => (
             <div
-              className={`group relative rounded-lg border bg-card p-4 transition ${
+              className={`group relative rounded-lg border bg-card p-3 transition sm:p-4 ${
                 activePlaceId === item.id
                   ? 'border-primary bg-muted shadow-sm ring-2 ring-primary/15'
                   : 'border-border hover:border-primary/50 hover:shadow-sm'
@@ -1515,7 +1515,7 @@ function PlannerDay({
               key={item.id}
             >
               <button
-                className="grid w-full gap-4 text-left sm:grid-cols-[5.25rem_minmax(0,1fr)] xl:pr-28"
+                className="grid w-full gap-3 text-left sm:grid-cols-[5.25rem_minmax(0,1fr)]"
                 onClick={() => onSelectPlace(item.id)}
                 onFocus={() => onSelectPlace(item.id)}
                 onMouseEnter={() => onSelectPlace(item.id)}
@@ -1542,11 +1542,11 @@ function PlannerDay({
                   </span>
                 </span>
                 <span className="block min-w-0">
-                  <span className="block break-words text-2xl font-black leading-tight">
+                  <span className="block break-words text-2xl font-black leading-tight [word-break:keep-all]">
                     {item.placeName}
                   </span>
                   {item.formattedAddress ? (
-                    <span className="mt-2 inline-flex items-start gap-2 break-words text-sm text-muted-foreground">
+                    <span className="mt-2 inline-flex items-start gap-2 break-words text-sm text-muted-foreground [word-break:keep-all]">
                       <MapPin className="mt-0.5 shrink-0" size={15} />
                       {item.formattedAddress}
                     </span>
@@ -1558,7 +1558,7 @@ function PlannerDay({
                   ) : null}
                 </span>
               </button>
-              <div className="mt-3 flex flex-wrap items-start gap-2 border-t border-border/70 pt-3 sm:ml-[6.25rem] xl:absolute xl:right-4 xl:top-4 xl:mt-0 xl:border-t-0 xl:bg-card/95 xl:p-1 xl:pt-1 xl:shadow-sm xl:backdrop-blur">
+              <div className="pointer-events-none absolute right-3 top-3 z-10 flex flex-wrap items-start justify-end gap-2 rounded-full bg-card/95 p-1 opacity-0 shadow-sm backdrop-blur transition-opacity group-hover:pointer-events-auto group-hover:opacity-100">
                 <button
                   aria-label="Move place up"
                   className="rounded-full border border-border bg-background p-2.5 disabled:opacity-35"
