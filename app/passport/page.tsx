@@ -134,7 +134,10 @@ export default function PassportPage() {
                     </p>
                   </div>
                   <GoogleJourneyMap
+                    fitMode="world"
                     onPlaceClick={openCountryByPlace}
+                    pinLabel="country"
+                    pinPluralLabel="countries"
                     places={passportCountryPins}
                     showRoute={false}
                   />

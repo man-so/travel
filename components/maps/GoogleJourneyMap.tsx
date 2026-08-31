@@ -111,12 +111,18 @@ export function GoogleJourneyMap({
   activePlaceId,
   onPlaceClick,
   onViewportChange,
+  fitMode = 'bounds',
+  pinLabel = 'place',
+  pinPluralLabel = 'places',
   showRoute = true,
 }: {
   places: MapPlace[];
   activePlaceId?: string | null;
   onPlaceClick?: (placeId: string) => void;
   onViewportChange?: (viewport: MapViewport) => void;
+  fitMode?: 'bounds' | 'world';
+  pinLabel?: string;
+  pinPluralLabel?: string;
   showRoute?: boolean;
 }) {
   const mapElementRef = useRef<HTMLDivElement>(null);
@@ -326,7 +332,10 @@ export function GoogleJourneyMap({
           bounds.extend(position);
         });
 
-        if (mapTargets.length > 1) {
+        if (fitMode === 'world') {
+          map.setCenter({ lat: 20, lng: 0 });
+          map.setZoom(2);
+        } else if (mapTargets.length > 1) {
           map.fitBounds(bounds);
         } else if (mapTargets.length === 1) {
           map.fitBounds(bounds);
@@ -339,7 +348,7 @@ export function GoogleJourneyMap({
 
         setStatus(
           mapTargets.length > 0
-            ? `${mapTargets.length} ${mapTargets.length === 1 ? 'place' : 'places'} pinned`
+            ? `${mapTargets.length} ${mapTargets.length === 1 ? pinLabel : pinPluralLabel} pinned`
             : 'No saved coordinates yet.',
         );
       } catch {
@@ -355,7 +364,7 @@ export function GoogleJourneyMap({
       cancelled = true;
       clearMapOverlays();
     };
-  }, [apiKey, mapTargets, showRoute]);
+  }, [apiKey, fitMode, mapTargets, pinLabel, pinPluralLabel, showRoute]);
 
   useEffect(() => {
     const googleMaps = googleMapsRef.current;

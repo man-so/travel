@@ -146,6 +146,9 @@ const copy = {
     closingTitle: 'Make your next journey visible.',
     createJourney: 'Create Journey',
     viewDashboard: 'View Dashboard',
+    plannerEyebrow: '01 / Plan',
+    passportEyebrow: '02 / Passport',
+    journalEyebrow: '03 / Journal',
   },
   ko: {
     languageLabel: '언어',
@@ -207,6 +210,9 @@ const copy = {
     closingTitle: '다음 여행을 더 선명한 기록으로 남겨보세요.',
     createJourney: '여행 만들기',
     viewDashboard: '대시보드 보기',
+    plannerEyebrow: '01 / 여행 계획',
+    passportEyebrow: '02 / 여행 여권',
+    journalEyebrow: '03 / 여행 기록',
   },
 } as const;
 
@@ -336,9 +342,9 @@ export default function Home() {
 
       <section className="waylog-section-reveal px-5 pb-24 md:px-16">
         <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-12 lg:items-center">
-          <div className="lg:col-span-5">
+          <div className="waylog-editorial-copy lg:col-span-5">
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-accent">
-              01 / Plan
+              {t.plannerEyebrow}
             </p>
             <h2 className="font-heading text-5xl leading-none text-primary md:text-6xl">
               {t.plannerTitle}
@@ -354,7 +360,7 @@ export default function Home() {
             </a>
           </div>
           <div className="lg:col-span-7">
-            <div className="overflow-hidden rounded-lg border border-border bg-card p-2">
+            <div className="waylog-editorial-image overflow-hidden rounded-lg border border-border bg-card p-2">
               <img
                 src={previewImage}
                 alt="Kyoto street preview for planned places"
@@ -368,7 +374,7 @@ export default function Home() {
       <section className="waylog-section-reveal px-5 pb-24 md:px-16">
         <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-12 lg:items-center">
           <div className="order-2 lg:order-1 lg:col-span-7">
-            <div className="overflow-hidden rounded-lg border border-border bg-card p-2">
+            <div className="waylog-editorial-image overflow-hidden rounded-lg border border-border bg-card p-2">
               <img
                 src={passportImage}
                 alt="Coastal road and blue ocean"
@@ -376,9 +382,9 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="order-1 lg:order-2 lg:col-span-5">
+          <div className="waylog-editorial-copy order-1 lg:order-2 lg:col-span-5">
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-accent">
-              02 / Explore
+              {t.passportEyebrow}
             </p>
             <h2 className="font-heading text-5xl leading-none text-primary md:text-6xl">
               {t.passportTitle}
@@ -398,14 +404,14 @@ export default function Home() {
 
       <section className="waylog-section-reveal px-5 pb-24 md:px-16">
         <div className="mx-auto grid max-w-[1280px] gap-10 border-t border-border pt-16 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
+          <div className="waylog-editorial-copy">
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-accent">
-              03 / Journal
+              {t.journalEyebrow}
             </p>
             <h2
               className={`leading-none text-primary [&>span]:block ${
                 language === 'ko'
-                  ? 'font-sans text-5xl font-black md:text-[3.4rem]'
+                  ? 'font-sans text-5xl font-semibold md:text-[3.4rem]'
                   : 'font-heading text-5xl md:text-6xl'
               }`}
             >
