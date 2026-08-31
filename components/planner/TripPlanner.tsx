@@ -503,20 +503,20 @@ export function TripPlanner({
   }
 
   return (
-    <section className="grid gap-10">
-      <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+    <section className="grid gap-8">
+      <div className="grid gap-6 lg:grid-cols-[minmax(360px,2fr)_minmax(0,3fr)]">
         <div>
-          <p className="text-sm font-black uppercase tracking-[0.18em] text-accent">
+          <p className="text-sm font-bold uppercase tracking-[0.22em] text-accent">
             Trip Planner
           </p>
-          <h2 className="mt-3 font-heading text-5xl leading-none md:text-6xl">
+          <h2 className="mt-3 font-heading text-5xl leading-none text-primary md:text-6xl">
             Plan your days
           </h2>
           <p className="mt-5 max-w-xl text-muted-foreground">
             Build the places you plan to visit before the trip. These plans stay separate from your actual travel moments.
           </p>
         </div>
-        <div className="rounded-lg border border-border p-5">
+        <div className="rounded-lg border border-border bg-card p-5">
           <p className="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground">
             <CalendarDays size={16} />
             {journey.destination}
@@ -567,13 +567,13 @@ export function TripPlanner({
         selectedClarification={aiImportClarificationChoice}
       />
 
-      <div className="grid gap-8 lg:grid-cols-[minmax(380px,0.8fr)_minmax(0,1.2fr)] lg:items-start">
-        <div className="min-w-0">
-          <div className="mb-8 inline-flex rounded-full border border-border bg-background p-1">
+      <div className="grid gap-8 lg:grid-cols-[minmax(360px,2fr)_minmax(0,3fr)] lg:items-start">
+        <div className="min-w-0 rounded-lg border border-border bg-card p-5 md:p-6">
+          <div className="mb-8 inline-flex rounded border border-border bg-muted p-1">
             <button
-              className={`rounded-full px-4 py-2 text-sm font-black transition ${
+              className={`rounded px-4 py-2 text-sm font-black transition ${
                 plannerView === 'schedule'
-                  ? 'bg-foreground text-background'
+                  ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
               onClick={() => setPlannerView('schedule')}
@@ -582,9 +582,9 @@ export function TripPlanner({
               내 일정
             </button>
             <button
-              className={`rounded-full px-4 py-2 text-sm font-black transition ${
+              className={`rounded px-4 py-2 text-sm font-black transition ${
                 plannerView === 'explore'
-                  ? 'bg-foreground text-background'
+                  ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
               onClick={() => setPlannerView('explore')}
@@ -638,9 +638,9 @@ export function TripPlanner({
           </div>
         </div>
 
-        <div className="min-w-0 lg:sticky lg:top-20">
+        <div className="min-w-0 lg:sticky lg:top-24">
           {visibleMapPlaces.length > 0 || plannerView === 'explore' ? (
-            <div className="overflow-hidden rounded-lg border border-border">
+            <div className="overflow-hidden rounded-lg border border-border bg-card">
               <GoogleJourneyMap
                 activePlaceId={activePlaceId}
                 places={visibleMapPlaces}
@@ -1132,12 +1132,14 @@ function PlaceExplorerShell({
   }
 
   return (
-    <section className="grid gap-6 border-t border-border pt-8">
+    <section className="grid gap-6">
       <div>
-        <p className="text-sm font-black uppercase tracking-[0.18em] text-accent">
+        <p className="text-sm font-bold uppercase tracking-[0.18em] text-accent">
           Place Explorer
         </p>
-        <h3 className="mt-1 text-4xl font-black">장소 찾기</h3>
+        <h3 className="mt-1 font-heading text-5xl leading-none text-primary">
+          장소 찾기
+        </h3>
         <p className="mt-3 max-w-lg leading-7 text-muted-foreground">
           {destination} 주변에서 일정에 추가할 후보를 검색합니다. 입력 중에는
           요청하지 않고, 버튼을 눌렀을 때만 Google Places를 호출합니다.
@@ -1146,7 +1148,7 @@ function PlaceExplorerShell({
 
       <label className="grid gap-2">
         <span className="text-sm font-bold">검색어</span>
-        <span className="flex min-h-12 items-center gap-3 rounded-lg border border-border bg-background px-4 focus-within:ring-2 focus-within:ring-accent">
+        <span className="flex min-h-12 items-center gap-3 border-b border-border bg-transparent px-1 focus-within:border-primary">
           <Search className="shrink-0 text-muted-foreground" size={18} />
           <input
             className="min-w-0 flex-1 bg-transparent outline-none"
@@ -1162,10 +1164,10 @@ function PlaceExplorerShell({
         <div className="flex flex-wrap gap-2">
           {explorerCategories.map(({ label, icon: Icon }) => (
             <button
-              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-black transition ${
+              className={`inline-flex items-center gap-2 rounded border px-4 py-2.5 text-sm font-black transition ${
                 category === label
-                  ? 'border-accent bg-accent text-white'
-                  : 'border-border bg-background text-muted-foreground hover:border-accent hover:text-accent'
+                  ? 'border-primary bg-primary text-primary-foreground'
+                  : 'border-border bg-muted text-muted-foreground hover:border-primary hover:text-primary'
               }`}
               key={label}
               onClick={() => onCategoryChange(label)}
@@ -1182,7 +1184,7 @@ function PlaceExplorerShell({
         <div className="flex items-center justify-between gap-3">
           <p className="text-sm font-bold">검색 결과</p>
           <button
-            className="rounded-full border border-border px-4 py-2 text-xs font-black text-muted-foreground transition hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded border border-border px-4 py-2 text-xs font-black text-muted-foreground transition hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
             disabled={status === 'loading'}
             onClick={onSearch}
             type="button"
@@ -1212,10 +1214,10 @@ function PlaceExplorerShell({
               const detailError = detailErrors[result.placeId];
               return (
                 <article
-                  className={`w-full rounded-lg border bg-background p-4 text-left transition ${
+                  className={`w-full rounded-lg border bg-card p-4 text-left transition ${
                     isActive
-                      ? 'border-accent bg-accent/5 shadow-lg ring-2 ring-accent/25'
-                      : 'border-border hover:border-accent/50 hover:shadow-md'
+                      ? 'border-primary bg-muted shadow-sm ring-2 ring-primary/15'
+                      : 'border-border hover:border-primary/50 hover:shadow-sm'
                   }`}
                   key={result.id}
                 >
@@ -1262,14 +1264,14 @@ function PlaceExplorerShell({
                   </button>
                   <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border/70 pt-3">
                     <button
-                      className="rounded-full border border-border px-3 py-2 text-sm font-black text-muted-foreground transition hover:border-accent hover:text-accent"
+                      className="rounded border border-border px-3 py-2 text-sm font-black text-muted-foreground transition hover:border-primary hover:text-primary"
                       onClick={() => void toggleDetail(result)}
                       type="button"
                     >
                       {isOpen ? '접기' : '자세히 보기'}
                     </button>
                     <button
-                      className="inline-flex items-center gap-2 rounded-full bg-accent px-3 py-2 text-sm font-black text-white transition hover:bg-foreground"
+                      className="inline-flex items-center gap-2 rounded bg-primary px-3 py-2 text-sm font-black text-primary-foreground transition hover:bg-accent"
                       onClick={() => onToggleAddPanel(result.id)}
                       type="button"
                     >
@@ -1480,10 +1482,12 @@ function PlannerDay({
           <p className="text-sm font-black uppercase tracking-[0.18em] text-accent">
             Day {String(day.dayNumber).padStart(2, '0')}
           </p>
-          <h3 className="mt-1 text-4xl font-black">{formatShortDate(day.date)}</h3>
+          <h3 className="mt-1 font-heading text-5xl leading-none text-primary">
+            {formatShortDate(day.date)}
+          </h3>
         </div>
         <button
-          className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-3 text-sm font-bold text-white"
+          className="inline-flex items-center gap-2 rounded bg-primary px-4 py-3 text-sm font-bold text-primary-foreground"
           onClick={onAdd}
           type="button"
         >
@@ -1498,13 +1502,14 @@ function PlannerDay({
           <p className="mt-1">Add a place you want to visit.</p>
         </div>
       ) : (
-        <div className="grid gap-4">
+        <div className="relative grid gap-6 pl-0 sm:pl-5">
+          <div className="absolute bottom-0 left-[3.25rem] top-0 hidden w-px bg-border sm:block" />
           {items.map((item, index) => (
             <div
-              className={`group relative rounded-lg border bg-background p-4 transition ${
+              className={`group relative rounded-lg border bg-card p-4 transition ${
                 activePlaceId === item.id
-                  ? 'border-accent bg-accent/5 shadow-lg ring-2 ring-accent/30'
-                  : 'border-border hover:border-accent/50 hover:shadow-md'
+                  ? 'border-primary bg-muted shadow-sm ring-2 ring-primary/15'
+                  : 'border-border hover:border-primary/50 hover:shadow-sm'
               }`}
               data-testid="itinerary-item"
               key={item.id}
@@ -1553,7 +1558,7 @@ function PlannerDay({
                   ) : null}
                 </span>
               </button>
-              <div className="mt-3 flex flex-wrap items-start gap-2 border-t border-border/70 pt-3 sm:ml-[6.25rem] xl:absolute xl:right-4 xl:top-4 xl:mt-0 xl:border-t-0 xl:bg-background/95 xl:p-1 xl:pt-1 xl:opacity-0 xl:shadow-sm xl:backdrop-blur xl:transition xl:group-hover:opacity-100 xl:group-focus-within:opacity-100">
+              <div className="mt-3 flex flex-wrap items-start gap-2 border-t border-border/70 pt-3 sm:ml-[6.25rem] xl:absolute xl:right-4 xl:top-4 xl:mt-0 xl:border-t-0 xl:bg-card/95 xl:p-1 xl:pt-1 xl:shadow-sm xl:backdrop-blur">
                 <button
                   aria-label="Move place up"
                   className="rounded-full border border-border bg-background p-2.5 disabled:opacity-35"

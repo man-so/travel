@@ -191,75 +191,87 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
 
   return (
     <main className="min-h-screen bg-background pb-28">
-      <section className="relative min-h-[62vh] overflow-hidden bg-foreground text-white">
-        {cover ? (
-          <img
-            alt={`${journey.destination} cover`}
-            className="absolute inset-0 h-full w-full object-cover"
-            src={cover}
-          />
-        ) : null}
-        <div className="absolute inset-0 bg-black/45" />
-        <div className="relative flex items-center justify-between px-5 py-5 md:px-10">
-          <a className="text-xl" href="/dashboard" aria-label="Back">
-            ←
-          </a>
-          <p className="font-bold">{journey.title}</p>
-          <a href={`/journeys/${journey.id}/edit`} aria-label="Edit Journey">
-            <MoreHorizontal />
-          </a>
-        </div>
-        <div className="relative mx-4 mt-16 max-w-xl rounded-lg bg-[#2f333d]/95 p-6 shadow-2xl md:mx-10">
-          <p className="font-heading text-5xl leading-none md:text-7xl">
-            {journey.destination}
-          </p>
-          <p className="mt-2 text-white/75">{journey.country}</p>
-          <div className="mt-8 flex flex-wrap items-center gap-4 text-sm text-white/80">
-            <span className="inline-flex items-center gap-2">
-              <CalendarDays size={16} />
-              {formatDateRange(journey.startDate, journey.endDate)}
-            </span>
-            <span>{dayCount(journey.startDate, journey.endDate)} Days</span>
+      <section className="mx-auto max-w-[1440px] px-5 pt-5 md:px-16 md:pt-8">
+        <div className="relative min-h-[560px] overflow-hidden rounded-lg border border-border bg-muted text-white md:min-h-[680px]">
+          {cover ? (
+            <img
+              alt={`${journey.destination} cover`}
+              className="absolute inset-0 h-full w-full object-cover"
+              src={cover}
+            />
+          ) : null}
+          <div className="absolute inset-0 bg-black/38" />
+          <div className="relative flex items-center justify-between px-4 py-4 md:px-6">
             <a
-              className="rounded-full bg-white px-5 py-2 font-bold text-foreground"
-              href={`/journeys/${journey.id}/edit`}
+              className="rounded border border-white/25 bg-black/15 px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] backdrop-blur transition hover:bg-white hover:text-foreground"
+              href="/dashboard"
+              aria-label="Back to dashboard"
             >
-              Edit
+              Dashboard
+            </a>
+            <p className="min-w-0 truncate px-4 text-sm font-bold uppercase tracking-[0.18em] text-white/85">
+              {journey.title}
+            </p>
+            <a
+              className="rounded border border-white/25 bg-black/15 p-2 backdrop-blur transition hover:bg-white hover:text-foreground"
+              href={`/journeys/${journey.id}/edit`}
+              aria-label="Edit Journey"
+            >
+              <MoreHorizontal />
             </a>
           </div>
-          {journey.cover?.photographerName ? (
-            <p className="mt-5 text-xs text-white/65">
-              Photo by{' '}
-              <a
-                href={journey.cover.photographerUrl}
-                rel="noreferrer"
-                target="_blank"
-                className="underline"
-              >
-                {journey.cover.photographerName}
-              </a>{' '}
-              on{' '}
-              <a
-                href={journey.cover.unsplashUrl}
-                rel="noreferrer"
-                target="_blank"
-                className="underline"
-              >
-                Unsplash
-              </a>
+          <div className="absolute bottom-6 left-4 right-4 max-w-2xl rounded-lg border border-white/15 bg-[#191c1b]/80 p-6 shadow-2xl backdrop-blur md:bottom-10 md:left-10 md:p-8">
+            <p className="font-heading text-5xl leading-none tracking-[-0.02em] md:text-8xl">
+              {journey.destination}
             </p>
-          ) : null}
+            <p className="mt-3 text-lg text-white/75">{journey.country}</p>
+            <div className="mt-8 flex flex-wrap items-center gap-4 text-sm text-white/82">
+              <span className="inline-flex items-center gap-2">
+                <CalendarDays size={16} />
+                {formatDateRange(journey.startDate, journey.endDate)}
+              </span>
+              <span>{dayCount(journey.startDate, journey.endDate)} Days</span>
+              <a
+                className="rounded bg-white px-5 py-2 font-bold text-foreground"
+                href={`/journeys/${journey.id}/edit`}
+              >
+                Edit
+              </a>
+            </div>
+            {journey.cover?.photographerName ? (
+              <p className="mt-5 text-xs text-white/65">
+                Photo by{' '}
+                <a
+                  href={journey.cover.photographerUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                  className="underline"
+                >
+                  {journey.cover.photographerName}
+                </a>{' '}
+                on{' '}
+                <a
+                  href={journey.cover.unsplashUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                  className="underline"
+                >
+                  Unsplash
+                </a>
+              </p>
+            ) : null}
+          </div>
         </div>
       </section>
 
-      <div className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur">
+      <div className="sticky top-0 z-10 mt-8 border-y border-border bg-background/95 backdrop-blur">
         <div
-          className="mx-auto flex max-w-[1680px] flex-wrap items-center justify-between gap-x-4 gap-y-2 px-5 md:px-10"
+          className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-x-4 gap-y-2 px-5 md:px-16"
         >
-          <div className="-ml-4 flex min-w-0 overflow-x-auto">
+          <div className="flex min-w-0 overflow-x-auto">
             {['Overview', 'Itinerary', 'Explore', '$'].map((tab) => (
               <button
-                className={`shrink-0 px-4 py-4 text-sm font-black ${activeTab === tab ? 'border-b-2 border-accent text-accent' : 'text-muted-foreground'}`}
+                className={`shrink-0 px-4 py-4 text-sm font-bold uppercase tracking-[0.1em] transition ${activeTab === tab ? 'border-b-2 border-primary text-primary' : 'text-muted-foreground hover:text-primary'}`}
                 key={tab}
                 onClick={() => {
                   setActiveTab(tab);
@@ -275,13 +287,13 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
           </div>
           <nav className="flex shrink-0 items-center gap-2 pb-2 md:pb-0">
             <a
-              className="rounded-full border border-border px-4 py-2 text-xs font-black uppercase tracking-[0.12em] transition hover:border-accent hover:text-accent"
+              className="rounded border border-border px-4 py-2 text-xs font-black uppercase tracking-[0.12em] transition hover:border-primary hover:text-primary"
               href="/"
             >
               Home
             </a>
             <a
-              className="rounded-full border border-border px-4 py-2 text-xs font-black uppercase tracking-[0.12em] transition hover:border-accent hover:text-accent"
+              className="rounded border border-border px-4 py-2 text-xs font-black uppercase tracking-[0.12em] transition hover:border-primary hover:text-primary"
               href="/dashboard"
             >
               Dashboard
@@ -292,7 +304,7 @@ export function JourneyDetail({ journeyId }: { journeyId: string }) {
 
       <section
         className={`mx-auto px-5 py-12 md:px-10 ${
-          activeTab === 'Itinerary' ? 'max-w-[1680px]' : 'max-w-5xl'
+          activeTab === 'Itinerary' ? 'max-w-[1440px] md:px-16' : 'max-w-5xl'
         }`}
       >
         {hasOpenedPlanner ? (

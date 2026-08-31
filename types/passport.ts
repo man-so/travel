@@ -3,6 +3,7 @@ export type PassportMapPlace = {
   dayNumber: number;
   place: string;
   query: string;
+  country: string;
   journeyTitle: string;
   destination: string;
   latitude: number;

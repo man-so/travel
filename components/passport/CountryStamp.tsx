@@ -46,7 +46,7 @@ export function CountryStamp({
   return (
     <button
       aria-label={`Open ${country.country} passport map`}
-      className="group relative min-h-[290px] overflow-hidden rounded-lg border border-foreground/15 bg-card p-6 text-left text-foreground transition hover:-translate-y-1 hover:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+      className="group relative min-h-[260px] overflow-hidden rounded-lg border border-foreground/15 bg-card p-6 text-left text-foreground transition hover:-translate-y-1 hover:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
       onClick={onOpenMap}
       type="button"
     >
@@ -70,7 +70,7 @@ export function CountryStamp({
         <p className="pr-20 text-sm font-black uppercase tracking-[0.28em] text-accent">
           {formatStampDate(country.firstVisitedAt)}
         </p>
-        <h2 className="mt-6 break-words font-heading text-5xl leading-none sm:text-6xl">
+        <h2 className="mt-6 break-words font-heading text-4xl leading-none sm:text-5xl">
           {country.country}
         </h2>
         <div className="mt-6 flex flex-wrap gap-2">

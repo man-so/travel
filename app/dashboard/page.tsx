@@ -34,20 +34,28 @@ export default function DashboardPage() {
   return (
     <main className="min-h-screen bg-background pb-24">
       <Header />
-      <section className="mx-auto w-full max-w-6xl px-5 pb-12 pt-4 md:px-10">
-        <div className="flex items-start justify-between gap-4">
+      <section className="mx-auto w-full max-w-[1440px] px-5 py-12 md:px-16">
+        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div>
-            <p className="text-muted-foreground">Good evening.</p>
-            <h1 className="mt-2 text-5xl font-black tracking-tight md:text-7xl">
+            <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">
+              Journey Collection
+            </p>
+            <h1 className="mt-4 font-heading text-6xl leading-none text-primary md:text-8xl">
               My Journeys
             </h1>
+            <p className="mt-4 max-w-2xl text-muted-foreground">
+              A curated archive of your travels, documented with intentionality.
+            </p>
           </div>
-          <a className="hidden rounded-full bg-accent px-5 py-3 text-sm font-bold text-white md:inline-flex" href="/journeys/new">
+          <a
+            className="hidden rounded bg-primary px-5 py-3 text-sm font-bold text-primary-foreground md:inline-flex"
+            href="/journeys/new"
+          >
             New Journey
           </a>
         </div>
 
-        <label className="mt-7 flex items-center gap-3 rounded-lg bg-black/5 px-4 py-3 text-muted-foreground">
+        <label className="mt-8 flex items-center gap-3 border-b border-border bg-transparent px-1 py-4 text-muted-foreground">
           <Search size={22} />
           <span className="sr-only">Filter by keyword or country</span>
           <input
@@ -59,17 +67,19 @@ export default function DashboardPage() {
         </label>
 
         {journeys.length === 0 ? (
-          <div className="mt-12 grid gap-4 md:grid-cols-2">
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
             <NewJourneyCard />
-            <div className="flex min-h-[270px] flex-col justify-end rounded-lg border border-dashed border-border p-7">
-              <p className="text-3xl font-black">No journeys yet.</p>
+            <div className="flex min-h-[320px] flex-col justify-end rounded-lg border border-dashed border-border bg-card p-7 md:min-h-[500px]">
+              <p className="font-heading text-5xl leading-none text-primary">
+                No journeys yet.
+              </p>
               <p className="mt-3 text-muted-foreground">
                 Your stories will appear here.
               </p>
             </div>
           </div>
         ) : (
-          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <NewJourneyCard />
             {filteredJourneys.map((journey) => (
               <JourneyCard journey={journey} key={journey.id} />

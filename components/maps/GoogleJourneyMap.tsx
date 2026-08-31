@@ -390,13 +390,13 @@ export function GoogleJourneyMap({
   }, [activePlaceId]);
 
   return (
-    <div className="grid min-h-[56vh] md:min-h-[70vh]">
+    <div className="grid min-h-[58vh] md:min-h-[72vh] lg:min-h-[calc(100vh-8rem)]">
       <div className="relative">
         <div
-          className="h-[56vh] w-full bg-muted md:h-[70vh]"
+          className="h-[58vh] w-full bg-muted md:h-[72vh] lg:h-[calc(100vh-8rem)]"
           ref={mapElementRef}
         />
-        <div className="absolute left-4 top-4 rounded-lg bg-white/90 px-4 py-3 text-sm shadow-xl backdrop-blur">
+        <div className="absolute left-4 top-4 rounded bg-white/90 px-4 py-3 text-sm shadow-xl backdrop-blur">
           <p className="inline-flex items-center gap-2 font-bold">
             <Activity size={16} />
             {status}
@@ -406,7 +406,7 @@ export function GoogleJourneyMap({
             selections
           </p>
         </div>
-        <div className="absolute bottom-4 left-4 right-4 rounded-lg bg-white/90 px-4 py-3 text-xs text-muted-foreground shadow-xl backdrop-blur">
+        <div className="absolute bottom-4 left-4 right-4 rounded bg-white/90 px-4 py-3 text-xs text-muted-foreground shadow-xl backdrop-blur">
           <p className="inline-flex gap-2">
             <AlertTriangle className="mt-0.5 shrink-0" size={14} />
             Pins use coordinates saved from Places selections. WAYLOG does not

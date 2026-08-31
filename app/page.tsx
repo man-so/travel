@@ -1,7 +1,7 @@
 'use client';
 
 import { Header } from '@/components/layout/Header';
-import { useState, type CSSProperties } from 'react';
+import { useState } from 'react';
 
 const heroImage =
   'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1800&q=80';
@@ -83,36 +83,6 @@ const previewDays = [
       en: 'Small streets, warm lights, one last walk.',
       ko: '작은 골목과 따뜻한 불빛 사이로 남기는 마지막 산책.',
     },
-  },
-];
-
-const plannerStops = [
-  {
-    time: '09:00',
-    place: 'Fushimi Inari',
-    note: {
-      en: 'Morning gates before the crowd.',
-      ko: '사람이 붐비기 전, 아침의 도리이 길.',
-    },
-    color: '#ff5a36',
-  },
-  {
-    time: '13:00',
-    place: 'Kiyomizu-dera',
-    note: {
-      en: 'Temple walk and hillside lunch.',
-      ko: '사찰을 둘러보고 언덕길에서 점심.',
-    },
-    color: '#f5b400',
-  },
-  {
-    time: '18:30',
-    place: 'Gion',
-    note: {
-      en: 'Evening streets and one diary moment.',
-      ko: '저녁 골목에서 남기는 오늘의 기록.',
-    },
-    color: '#1fa463',
   },
 ];
 
@@ -330,130 +300,110 @@ export default function Home() {
 
       <section
         id="about"
-        className="waylog-section-reveal px-5 py-20 md:px-10 lg:py-28"
+        className="waylog-section-reveal px-5 py-20 md:px-16 lg:py-28"
       >
-        <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-[0.9fr_1.1fr] md:items-start">
-          <div>
-            <p className="mb-5 text-sm font-bold uppercase tracking-[0.28em] text-accent">
-              {t.keepsEyebrow}
-            </p>
-            <h2 className="font-heading text-6xl leading-none md:text-7xl">
-              {t.keepsTitle}
-            </h2>
-          </div>
-          <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
-            {memorySteps.map((step) => (
-              <article
-                key={step.label}
-                className="waylog-feature-card border-t border-border pt-6"
-              >
-                <p className="text-sm font-bold uppercase tracking-[0.28em] text-accent">
-                  {step.label}
-                </p>
-                <h3 className="mt-5 text-xl font-black">
-                  {step.title[language]}
-                </h3>
-                <p className="mt-4 leading-7 text-muted-foreground">
-                  {step.body[language]}
-                </p>
-              </article>
-            ))}
+        <div className="mx-auto max-w-[1280px] border-b border-border pb-16">
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div>
+              <p className="mb-5 text-sm font-bold uppercase tracking-[0.28em] text-accent">
+                {t.keepsEyebrow}
+              </p>
+              <h2 className="font-heading text-6xl leading-none text-primary md:text-7xl">
+                {t.keepsTitle}
+              </h2>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2">
+              {memorySteps.map((step) => (
+                <article
+                  key={step.label}
+                  className="border-t border-border pt-6"
+                >
+                  <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">
+                    {step.label}
+                  </p>
+                  <h3 className="mt-5 text-xl font-black">
+                    {step.title[language]}
+                  </h3>
+                  <p className="mt-4 leading-7 text-muted-foreground">
+                    {step.body[language]}
+                  </p>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="waylog-section-reveal px-5 pb-24 md:px-10">
-        <div className="mx-auto grid max-w-6xl gap-10 border-y border-border py-16 md:grid-cols-[0.82fr_1.18fr] md:items-center">
-          <div>
+      <section className="waylog-section-reveal px-5 pb-24 md:px-16">
+        <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-12 lg:items-center">
+          <div className="lg:col-span-5">
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-accent">
-              Trip Planner
+              01 / Plan
             </p>
-            <h2 className="font-heading text-5xl leading-none md:text-6xl">
+            <h2 className="font-heading text-5xl leading-none text-primary md:text-6xl">
               {t.plannerTitle}
             </h2>
             <p className="mt-6 max-w-md leading-8 text-muted-foreground">
               {t.plannerBody}
             </p>
+            <a
+              href="/journeys/new"
+              className="mt-8 inline-flex rounded bg-primary px-6 py-3 text-sm font-bold text-primary-foreground"
+            >
+              {t.createJourney}
+            </a>
           </div>
-
-          <article className="waylog-planner-preview overflow-hidden rounded-lg border border-border bg-white shadow-2xl">
-            <div className="grid md:grid-cols-[0.45fr_0.55fr]">
-              <div className="space-y-4 p-5">
-                <div>
-                  <p className="text-sm font-black uppercase tracking-[0.22em] text-accent">
-                    Day 01
-                  </p>
-                  <h3 className="mt-1 text-3xl font-black">April 10</h3>
-                </div>
-                {plannerStops.map((stop, index) => (
-                  <div
-                    className="waylog-planner-stop grid grid-cols-[3rem_1fr] gap-4 border-t border-border pt-4"
-                    key={stop.place}
-                    style={{ '--stop-color': stop.color } as CSSProperties}
-                  >
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--stop-color)] text-sm font-black text-white">
-                      {index + 1}
-                    </span>
-                    <div>
-                      <p className="text-sm font-black">{stop.time}</p>
-                      <h4 className="mt-1 text-xl font-black">{stop.place}</h4>
-                      <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                        {stop.note[language]}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="relative min-h-[360px] overflow-hidden bg-[#dfe9df]">
-                <img
-                  src={previewImage}
-                  alt="Kyoto street preview for planned places"
-                  className="absolute inset-0 h-full w-full object-cover opacity-35"
-                />
-                <div className="absolute inset-0 waylog-map-grid" />
-                <svg
-                  className="absolute inset-0 h-full w-full"
-                  aria-hidden="true"
-                  viewBox="0 0 420 360"
-                >
-                  <path
-                    className="waylog-route-line"
-                    d="M90 84 C150 110 130 176 205 190 C270 205 258 278 334 294"
-                    fill="none"
-                    stroke="#ff5a36"
-                    strokeLinecap="round"
-                    strokeWidth="5"
-                  />
-                </svg>
-                {plannerStops.map((stop, index) => (
-                  <div
-                    className="waylog-map-pin absolute flex h-12 w-12 items-center justify-center rounded-full text-sm font-black text-white shadow-xl"
-                    key={stop.place}
-                    style={
-                      {
-                        '--pin-color': stop.color,
-                        left: `${18 + index * 29}%`,
-                        top: `${18 + index * 30}%`,
-                      } as CSSProperties
-                    }
-                  >
-                    {index + 1}
-                  </div>
-                ))}
-              </div>
+          <div className="lg:col-span-7">
+            <div className="overflow-hidden rounded-lg border border-border bg-card p-2">
+              <img
+                src={previewImage}
+                alt="Kyoto street preview for planned places"
+                className="aspect-[4/3] w-full rounded object-cover"
+              />
             </div>
-          </article>
+          </div>
         </div>
       </section>
 
-      <section className="waylog-section-reveal px-5 pb-24 md:px-10">
-        <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[0.8fr_1.2fr] md:items-center">
+      <section className="waylog-section-reveal px-5 pb-24 md:px-16">
+        <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-12 lg:items-center">
+          <div className="order-2 lg:order-1 lg:col-span-7">
+            <div className="overflow-hidden rounded-lg border border-border bg-card p-2">
+              <img
+                src={passportImage}
+                alt="Coastal road and blue ocean"
+                className="aspect-[4/3] w-full rounded object-cover"
+              />
+            </div>
+          </div>
+          <div className="order-1 lg:order-2 lg:col-span-5">
+            <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-accent">
+              02 / Explore
+            </p>
+            <h2 className="font-heading text-5xl leading-none text-primary md:text-6xl">
+              {t.passportTitle}
+            </h2>
+            <p className="mt-6 max-w-md leading-8 text-muted-foreground">
+              {t.passportBody}
+            </p>
+            <a
+              href="/passport"
+              className="mt-8 inline-flex rounded border border-primary px-6 py-3 text-sm font-bold text-primary"
+            >
+              {t.passport}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section className="waylog-section-reveal px-5 pb-24 md:px-16">
+        <div className="mx-auto grid max-w-[1280px] gap-10 border-t border-border pt-16 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-accent">
-              Timeline
+              03 / Journal
             </p>
             <h2
-              className={`leading-none [&>span]:block ${
+              className={`leading-none text-primary [&>span]:block ${
                 language === 'ko'
                   ? 'font-sans text-5xl font-black md:text-[3.4rem]'
                   : 'font-heading text-5xl md:text-6xl'
@@ -465,143 +415,47 @@ export default function Home() {
               {t.timelineBody}
             </p>
           </div>
-
-          <article className="waylog-product-preview rounded-[1.5rem] bg-foreground p-3 text-background shadow-2xl">
-            <div className="overflow-hidden rounded-[1.1rem] bg-background text-foreground">
-              <img
-                src={previewImage}
-                alt="Kyoto street with traditional buildings"
-                className="h-64 w-full object-cover"
-              />
-              <div className="border-b border-border px-5 py-4">
-                <div className="flex flex-wrap gap-2 text-xs font-black uppercase tracking-[0.18em]">
-                  <span className="text-accent">Overview</span>
-                  <span className="text-muted-foreground">Itinerary</span>
-                  <span className="text-muted-foreground">Explore</span>
-                </div>
-              </div>
-              <div className="space-y-4 p-5">
-                {previewDays.map((item) => (
-                  <div
-                    key={item.day}
-                    className="waylog-timeline-row grid gap-3 border-t border-border pt-4 sm:grid-cols-[6rem_1fr]"
-                  >
-                    <p className="text-xs font-black uppercase tracking-[0.22em] text-accent">
-                      {item.day}
-                    </p>
-                    <div>
-                      <h3 className="text-2xl font-black">{item.place}</h3>
-                      <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                        {item.note[language]}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section className="waylog-section-reveal px-5 pb-24 md:px-10">
-        <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1fr_0.9fr] md:items-center">
-          <article className="waylog-passport-preview relative min-h-[360px] overflow-hidden rounded-lg border border-border p-6 text-white">
-            <img
-              src={passportImage}
-              alt="Coastal road and blue ocean"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/45" />
-            <div className="relative flex h-full min-h-[312px] flex-col justify-between border border-dashed border-white/65 p-6">
-              <div className="flex items-start justify-between gap-6">
-                <div>
-                  <p className="text-sm font-black uppercase tracking-[0.32em] text-white/90">
-                    Jan 2026
-                  </p>
-                  <h3 className="mt-7 font-heading text-6xl leading-none">
-                    korea
-                  </h3>
-                </div>
-                <span className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-accent bg-white/90 text-lg font-black italic text-accent">
-                  KR
-                </span>
-              </div>
-              <div>
-                <span className="rounded-full bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-foreground">
-                  Busan
-                </span>
-                <p className="mt-6 text-sm font-semibold text-white/88">
-                  First visited JAN 2026 · 1 trip · 1 city
+          <div className="grid gap-4">
+            {previewDays.map((item) => (
+              <article
+                key={item.day}
+                className="grid gap-4 border-t border-border py-5 sm:grid-cols-[7rem_1fr]"
+              >
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-accent">
+                  {item.day}
                 </p>
-              </div>
-            </div>
-          </article>
-
-          <div>
-            <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-accent">
-              Travel Passport
-            </p>
-            <h2 className="font-heading text-5xl leading-none md:text-6xl">
-              {t.passportTitle}
-            </h2>
-            <p className="mt-6 max-w-md leading-8 text-muted-foreground">
-              {t.passportBody}
-            </p>
-            <a
-              href="/passport"
-              className="mt-8 inline-flex rounded-full border border-foreground/20 px-6 py-3 text-sm font-black"
-            >
-              {t.passport}
-            </a>
+                <div>
+                  <h3 className="text-2xl font-black">{item.place}</h3>
+                  <p className="mt-2 leading-7 text-muted-foreground">
+                    {item.note[language]}
+                  </p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="waylog-section-reveal px-5 pb-24 md:px-10">
-        <div className="mx-auto grid max-w-6xl gap-10 border-t border-border pt-16 md:grid-cols-2">
-          <article className="waylog-feature-card">
-            <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-accent">
-              Local-first
+      <section className="waylog-section-reveal px-5 pb-24 md:px-16">
+        <div className="mx-auto grid max-w-[1280px] gap-8 border-t border-border pt-16 md:grid-cols-[1fr_auto] md:items-end">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-[0.28em] text-accent">
+              {t.startEyebrow}
             </p>
-            <h2 className="font-heading text-5xl leading-none">
-              {t.localTitle}
+            <h2 className="mt-5 font-heading text-6xl leading-none text-primary md:text-7xl">
+              {t.closingTitle}
             </h2>
-            <p className="mt-6 leading-8 text-muted-foreground">
-              {t.localBody}
-            </p>
-          </article>
-          <article className="waylog-feature-card">
-            <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-accent">
-              {t.nextEyebrow}
-            </p>
-            <h2 className="font-heading text-5xl leading-none">
-              AI Photo Organizer
-            </h2>
-            <p className="mt-6 leading-8 text-muted-foreground">
-              {t.nextBody}
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section className="waylog-section-reveal px-5 pb-24 text-center md:px-10">
-        <div className="mx-auto max-w-3xl">
-          <p className="text-sm font-bold uppercase tracking-[0.28em] text-accent">
-            {t.startEyebrow}
-          </p>
-          <h2 className="mt-5 font-heading text-6xl leading-none md:text-7xl">
-            {t.closingTitle}
-          </h2>
-          <div className="mt-9 flex flex-wrap justify-center gap-3">
+          </div>
+          <div className="flex flex-wrap gap-3">
             <a
               href="/journeys/new"
-              className="rounded-full bg-accent px-7 py-3 text-sm font-bold text-accent-foreground"
+              className="rounded bg-primary px-7 py-3 text-sm font-bold text-primary-foreground"
             >
               {t.createJourney}
             </a>
             <a
               href="/dashboard"
-              className="rounded-full border border-foreground/20 px-7 py-3 text-sm font-bold"
+              className="rounded border border-primary px-7 py-3 text-sm font-bold text-primary"
             >
               {t.viewDashboard}
             </a>

@@ -70,6 +70,7 @@ export function createPassport(journeys: Journey[]): PassportViewModel {
             dayNumber: day.dayNumber,
             place: entry.place,
             query: [entry.place, journey.destination, country].filter(Boolean).join(', '),
+            country,
             journeyTitle: journey.title,
             destination,
             latitude: entry.latitude!,

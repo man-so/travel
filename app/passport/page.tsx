@@ -9,7 +9,41 @@ import { StampGrid } from '@/components/passport/StampGrid';
 import { createPassport } from '@/lib/passport/aggregate';
 import { listJourneys } from '@/lib/journey-store';
 import type { Journey } from '@/types/journey';
-import type { PassportCountry } from '@/types/passport';
+import type { PassportCountry, PassportMapPlace } from '@/types/passport';
+
+function countryCode(country: string) {
+  return country.trim().slice(0, 2).toUpperCase();
+}
+
+function createCountryPin(country: PassportCountry): PassportMapPlace | null {
+  if (country.mapPlaces.length === 0) {
+    return null;
+  }
+
+  const latitude =
+    country.mapPlaces.reduce((sum, place) => sum + place.latitude, 0) /
+    country.mapPlaces.length;
+  const longitude =
+    country.mapPlaces.reduce((sum, place) => sum + place.longitude, 0) /
+    country.mapPlaces.length;
+
+  return {
+    id: `passport-country-${country.country}`,
+    dayNumber: 0,
+    place: country.country,
+    query: country.country,
+    country: country.country,
+    journeyTitle: `${country.journeyCount} ${
+      country.journeyCount === 1 ? 'journey' : 'journeys'
+    }`,
+    destination: country.cities.join(', '),
+    latitude,
+    longitude,
+    markerLabel: countryCode(country.country),
+    markerColor: '#1b5143',
+    markerTextColor: '#ffffff',
+  };
+}
 
 export default function PassportPage() {
   const [journeys, setJourneys] = useState<Journey[]>([]);
@@ -23,11 +57,27 @@ export default function PassportPage() {
   }, []);
 
   const passport = useMemo(() => createPassport(journeys), [journeys]);
+  const passportCountryPins = useMemo(
+    () =>
+      passport.countries
+        .map((country) => createCountryPin(country))
+        .filter((place): place is PassportMapPlace => Boolean(place)),
+    [passport.countries],
+  );
+
+  function openCountryByPlace(placeId: string) {
+    const country = passport.countries.find(
+      (item) => `passport-country-${item.country}` === placeId,
+    );
+    if (country) {
+      setSelectedCountry(country);
+    }
+  }
 
   return (
     <main className="min-h-screen bg-background pb-28 text-foreground">
       <Header />
-      <section className="mx-auto max-w-6xl px-5 pb-12 pt-4 md:px-10">
+      <section className="mx-auto max-w-[1440px] px-5 pb-12 pt-8 md:px-16">
         <div className="grid gap-8 border-b border-border pb-10 md:grid-cols-[0.95fr_1.05fr] md:items-end">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.24em] text-accent">
@@ -64,8 +114,39 @@ export default function PassportPage() {
                 Add a country to any uncategorized journey to unlock more stamps.
               </div>
             ) : null}
-            <div className="mt-10">
-              <StampGrid countries={passport.countries} onOpenCountry={setSelectedCountry} />
+            <div className="mt-10 grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
+              <div>
+                <StampGrid countries={passport.countries} onOpenCountry={setSelectedCountry} />
+              </div>
+              {passportCountryPins.length > 0 ? (
+                <section className="overflow-hidden rounded-lg border border-border bg-white lg:sticky lg:top-24">
+                  <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border p-5">
+                    <div>
+                      <p className="text-sm font-black uppercase tracking-[0.18em] text-accent">
+                        World Map
+                      </p>
+                      <h2 className="mt-2 font-heading text-4xl leading-none text-primary">
+                        Passport pins
+                      </h2>
+                    </div>
+                    <p className="max-w-md text-sm leading-6 text-muted-foreground">
+                      One pin represents one country. Select a pin to open the related passport.
+                    </p>
+                  </div>
+                  <GoogleJourneyMap
+                    onPlaceClick={openCountryByPlace}
+                    places={passportCountryPins}
+                    showRoute={false}
+                  />
+                </section>
+              ) : (
+                <section className="rounded-lg border border-dashed border-border p-6 text-muted-foreground">
+                  <p className="font-bold text-foreground">No country pins yet.</p>
+                  <p className="mt-2">
+                    Choose Google Places for moments to place country pins on the map.
+                  </p>
+                </section>
+              )}
             </div>
           </>
         )}

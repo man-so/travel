@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-instrument-serif);
+  --font-sans: var(--font-manrope);
+  --font-mono: var(--font-manrope);
+  --font-heading: var(--font-libre-caslon);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -49,30 +49,30 @@
 }
 
 :root {
-  --background: #f6f4ef;
-  --foreground: #111111;
+  --background: #f8faf7;
+  --foreground: #191c1b;
   --card: #ffffff;
-  --card-foreground: #111111;
+  --card-foreground: #191c1b;
   --popover: #ffffff;
-  --popover-foreground: #111111;
-  --primary: #111111;
+  --popover-foreground: #191c1b;
+  --primary: #1b5143;
   --primary-foreground: #ffffff;
-  --secondary: #e9e3d8;
-  --secondary-foreground: #111111;
-  --muted: #ece7de;
-  --muted-foreground: #6f6f6f;
-  --accent: #ff5a36;
+  --secondary: #fd9977;
+  --secondary-foreground: #762f16;
+  --muted: #edeeec;
+  --muted-foreground: #404945;
+  --accent: #96472c;
   --accent-foreground: #ffffff;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: rgb(17 17 17 / 12%);
-  --input: rgb(17 17 17 / 18%);
-  --ring: #ff5a36;
+  --border: #c0c9c4;
+  --input: #c0c9c4;
+  --ring: #1b5143;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.5rem;
+  --radius: 0.25rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -124,7 +124,7 @@
   body {
     @apply bg-background text-foreground;
     font-family:
-      var(--font-geist-sans), Pretendard, Arial, Helvetica, sans-serif;
+      var(--font-manrope), Pretendard, Arial, Helvetica, sans-serif;
   }
   html {
     @apply font-sans;
