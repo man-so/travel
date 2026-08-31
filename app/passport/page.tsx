@@ -88,12 +88,28 @@ export default function PassportPage() {
               ) : (
                 <div className="mt-6 grid gap-2">
                   {selectedCountry.mapPlaces.map((place) => (
-                    <div className="rounded-lg border border-border bg-background px-4 py-3" key={place.id}>
-                      <p className="text-xs font-black uppercase tracking-[0.16em] text-muted-foreground">
-                        Day {String(place.dayNumber).padStart(2, '0')} - {place.destination}
-                      </p>
-                      <p className="mt-1 font-bold">{place.place}</p>
-                      <p className="mt-1 text-xs text-muted-foreground">{place.journeyTitle}</p>
+                    <div
+                      className="flex gap-3 rounded-lg border border-border bg-background px-4 py-3"
+                      key={place.id}
+                    >
+                      {place.markerLabel ? (
+                        <span
+                          className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-black"
+                          style={{
+                            backgroundColor: place.markerColor ?? '#ff5a36',
+                            color: place.markerTextColor ?? '#ffffff',
+                          }}
+                        >
+                          {place.markerLabel}
+                        </span>
+                      ) : null}
+                      <div className="min-w-0">
+                        <p className="text-xs font-black uppercase tracking-[0.16em] text-muted-foreground">
+                          Day {String(place.dayNumber).padStart(2, '0')} - {place.destination}
+                        </p>
+                        <p className="mt-1 font-bold">{place.place}</p>
+                        <p className="mt-1 text-xs text-muted-foreground">{place.journeyTitle}</p>
+                      </div>
                     </div>
                   ))}
                 </div>

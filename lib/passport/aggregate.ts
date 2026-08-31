@@ -5,6 +5,16 @@ type CountryAccumulator = PassportCountry & {
   normalizedCities: Set<string>;
 };
 
+const markerPalette = [
+  { background: '#ff5a36', text: '#ffffff' },
+  { background: '#f97316', text: '#ffffff' },
+  { background: '#eab308', text: '#111111' },
+  { background: '#16a34a', text: '#ffffff' },
+  { background: '#0284c7', text: '#ffffff' },
+  { background: '#7c3aed', text: '#ffffff' },
+  { background: '#db2777', text: '#ffffff' },
+];
+
 function normalizeKey(value: string) {
   return value.trim().replace(/\s+/g, ' ').toLowerCase();
 }
@@ -42,22 +52,33 @@ export function createPassport(journeys: Journey[]): PassportViewModel {
     }
 
     const existing = countries.get(countryKey);
+    const markerOffset = existing?.mapPlaces.length ?? 0;
+    let mapPlaceIndex = markerOffset;
     const mapPlaces = journey.days.flatMap((day) =>
       day.entries
         .filter(
           (entry) =>
             typeof entry.latitude === 'number' && typeof entry.longitude === 'number',
         )
-        .map((entry) => ({
-          id: entry.id,
-          dayNumber: day.dayNumber,
-          place: entry.place,
-          query: [entry.place, journey.destination, country].filter(Boolean).join(', '),
-          journeyTitle: journey.title,
-          destination,
-          latitude: entry.latitude!,
-          longitude: entry.longitude!,
-        })),
+        .map((entry) => {
+          const label = String(mapPlaceIndex + 1);
+          const style = markerPalette[mapPlaceIndex % markerPalette.length];
+          mapPlaceIndex += 1;
+
+          return {
+            id: entry.id,
+            dayNumber: day.dayNumber,
+            place: entry.place,
+            query: [entry.place, journey.destination, country].filter(Boolean).join(', '),
+            journeyTitle: journey.title,
+            destination,
+            latitude: entry.latitude!,
+            longitude: entry.longitude!,
+            markerLabel: label,
+            markerColor: style.background,
+            markerTextColor: style.text,
+          };
+        }),
     );
 
     if (existing) {

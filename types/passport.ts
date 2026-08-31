@@ -7,6 +7,9 @@ export type PassportMapPlace = {
   destination: string;
   latitude: number;
   longitude: number;
+  markerLabel?: string;
+  markerColor?: string;
+  markerTextColor?: string;
 };
 
 export type PassportCountry = {
